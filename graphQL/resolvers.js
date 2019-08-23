@@ -138,6 +138,15 @@ module.exports = {
       });
 
       return allCT;
+    },
+    getCurrentCoach: async (root, { id }, ctxt) => {
+      try {
+        const coach = await Coach.findById(id);
+        return coach;
+      } catch (err) {
+        console.error(err);
+        throw err;
+      }
     }
   },
 
@@ -279,12 +288,17 @@ module.exports = {
         });
 
         const location = await Location.findOne({ location_name });
-        const rmanagerID = location.rmanager.map(rm => rm);
-        console.log(rmanagerID);
+        const rmanagerID = location.rmanager.map(rm => {
+          return rm._id;
+        });
+        console.log("rmanagerID", rmanagerID);
         // 3.1. Check exisitng coach
         if (existingCoach) {
           // 3.1.2 Check if location is exisitng in coach
-          const existloc = existingCoach.location.filter(l => l == location_id);
+          const existloc = existingCoach.location.filter(
+            l => l != location._id
+          );
+          console.log("existloc", existloc);
           if (existloc.length > 0) {
             console.log("Location already exisitng for this coach", existloc);
             return location;
@@ -579,6 +593,211 @@ module.exports = {
       sendEmail("lakaganth89@gmail.com", report);
       return newReport;
     },
+    deleteCoach: async (root, { cID }, ctxt) => {
+      const coach = await Coach.findById(cID);
+
+      // 8.1 Remove from location
+      await coach.location.map(async loc => {
+        const locs = await Location.findById(loc._id);
+        // console.log(cID);
+        const filterLoc = locs.coach.filter(l => l != cID);
+        // console.log(filterLoc);
+        locs.coach = filterLoc;
+        // console.log(locs);
+        await locs.save();
+        return locs;
+      });
+
+      // 8.2 Remove from Rmanager
+
+      coach.rmanager.map(async rm => {
+        const rms = await RManager.findById(rm._id);
+        const rmFilt = rms.coach.filter(rm => rm != cID);
+        rms.coach = rmFilt;
+        // console.log(rms);
+        await rms.save();
+        return rms;
+      });
+
+      // 8.3 Remove form Sport
+
+      const sport = await Sport.findById(coach.sport._id);
+      const spfilt = await sport.coach.filter(sp => sp._id != cID);
+      sport.coach = spfilt;
+      await sport.save();
+      // console.log(sport);
+
+      // 8.4 Remove Coach
+
+      await Coach.findByIdAndRemove(cID);
+
+      return true;
+    },
+    deleteLocation: async (root, { lID }, ctxt) => {
+      const location = await Location.findById(lID);
+      // console.log(location);
+
+      // 9.1 Remove location from Coach
+
+      location.coach.map(async c => {
+        const coach = await Coach.findById(c._id);
+        coach.location = await coach.location.filter(cd => cd._id != lID);
+        // console.log(coach);
+        await coach.save();
+        return coach;
+      });
+
+      //9.2 Remove location from rmanager
+
+      location.rmanager.map(async c => {
+        const rmanager = await RManager.findById(c._id);
+        rmanager.location = await rmanager.location.filter(cd => cd._id != lID);
+        // console.log(rmanager);
+        await rmanager.save();
+        return rmanager;
+      });
+
+      // 9.3 Remove Location from sport
+
+      location.sport.map(async c => {
+        const sport = await Sport.findById(c._id);
+        sport.location = await sport.location.filter(cd => cd._id != lID);
+        // console.log(sport);
+        await sport.save();
+        return sport;
+      });
+
+      await Location.findByIdAndRemove(lID);
+
+      return true;
+    },
+    deleteSport: async (root, { sID }, ctxt) => {
+      const sport = await Sport.findById(sID);
+
+      // 10.1 Remove sport from Coach
+
+      sport.coach.map(async c => {
+        return await Coach.findByIdAndRemove(c._id);
+      });
+
+      // 10.2 Remove sport from Location\
+
+      sport.location.map(async c => {
+        const location = await Location.findById(c._id);
+        location.sport = await location.sport.filter(cd => cd._id != sID);
+        // console.log(location);
+        await sport.save();
+        return location;
+      });
+
+      // 10.3 Remove sport from rManager
+
+      sport.rmanager.map(async c => {
+        const rmanager = await RManager.findById(c._id);
+        rmanager.sport = await rmanager.sport.filter(cd => cd._id != sID);
+        // console.log(rmanager);
+        await rmanager.save();
+        return rmanager;
+      });
+
+      await Sport.findByIdAndRemove(sID);
+
+      return true;
+    },
+    deleteRmanager: async (root, { rmID }, ctxt) => {
+      const rmanager = await RManager.findById(rmID);
+
+      //11.1 Remove RM from location
+      rmanager.location.map(async c => {
+        const location = await Location.findById(c._id);
+        location.rmanager = await location.rmanager.filter(
+          cd => cd._id != rmID
+        );
+        // console.log(location);
+        await location.save();
+        return location;
+      });
+
+      //11.2 Remove RM from sport
+      rmanager.sport.map(async c => {
+        const sport = await Sport.findById(c._id);
+        sport.rmanager = await sport.rmanager.filter(cd => cd._id != rmID);
+        // console.log(sport);
+        await sport.save();
+        return sport;
+      });
+
+      //11.3 Remove RM from coach
+      rmanager.coach.map(async c => {
+        const coach = await Coach.findById(c._id);
+        coach.rmanager = await coach.rmanager.filter(cd => cd._id != rmID);
+        // console.log(coach);
+        await coach.save();
+        return coach;
+      });
+
+      await RManager.findByIdAndRemove(rmID);
+
+      return true;
+    },
+    updateCoach: async (root, { id, updatedCoachInput }) => {
+      const coach = await Coach.findById(id);
+
+      const {
+        coach_name,
+        coach_email,
+        backup_coach,
+
+        coach_code
+      } = updatedCoachInput;
+
+      if (!coach) {
+        const error = new Error("No coach Found");
+        error.code = 404;
+        throw error;
+      }
+
+      // 12.1 Check if there is change in location
+
+      // const newCoachLocation = await Location.findOne({ location_name });
+      // console.log("updateCoachLocation", newCoachLocation);
+
+      // 12.1.2 Remove the coach from the old locaiton
+      // if (coach.location._id != newCoachLocation._id) {
+      //   console.log("change the location");
+      //   const existingLocationID = await coach.location.map(lID => lID);
+
+      //   await existingLocationID.map(async lcID => {
+      //     const loc = await Location.findById(lcID);
+      //     loc.coach = loc.coach.filter(lc => {
+      //       return lc._id.toString() != coach._id.toString();
+      //     });
+      //     loc.save();
+      //     console.log(loc);
+      //     coach.location = await coach.location.filter(lc => {
+      //       return lc._id.toString() != loc._id.toString();
+      //     });
+      //     console.log("Updated coach location", coach.location);
+      //     return loc;
+      //   });
+
+      //   await coach.location.push(newCoachLocation._id);
+      //   console.log("Coach with updated location", coach);
+      // }
+
+      coach.coach_name = coach_name;
+      coach.coach_email = coach_email;
+      coach.backup_coach = backup_coach;
+      // coach.coach_sport = coach_sport;
+      // coach.sport_code = sport_code;
+      coach.coach_code = coach_code;
+
+      console.log(coach);
+      await coach.save();
+
+      return coach;
+    },
+
     deleteAll: async () => {
       const coach = await Coach.find();
       const location = await Location.find();

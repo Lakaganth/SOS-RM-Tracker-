@@ -24,6 +24,7 @@ import AdminAllLocations from "./components/adminComps/AdminAllLocations";
 import AdminNewCoachForm from "./components/adminComps/adminCoach/AdminNewCoachForm";
 import AdminAllCoach from "./components/adminComps/adminCoach/AdminAllCoach";
 import AdminNewClasstoCoach from "./components/adminComps/adminClasstoCoach/AdminNewClasstoCoach";
+import AdminCoachCardEdit from "./components/adminComps/adminCoach/AdminCoachCardEdit";
 
 const App = ({ refetch, session }) => {
   const user = UseAuth();
@@ -50,6 +51,10 @@ const App = ({ refetch, session }) => {
                 />
                 <Route path="/admin/new-coach" component={AdminNewCoachForm} />
                 <Route path="/admin/all-coach" component={AdminAllCoach} />
+                <Route
+                  path="/admin/coach/edit/:cID"
+                  component={AdminCoachCardEdit}
+                />
                 <Route
                   path="/admin/new-class"
                   component={AdminNewClasstoCoach}

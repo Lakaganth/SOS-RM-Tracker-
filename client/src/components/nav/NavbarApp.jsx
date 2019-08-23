@@ -5,10 +5,12 @@ import Button from "react-bootstrap/Button";
 
 import { NavLink } from "react-router-dom";
 import Signout from "../auth/Signout";
+import FirebaseContext from "../../context/firebase/firebaseContext";
 
 import "./NavbarApp.scss";
 
 const NavbarApp = ({ session }) => {
+  const { user, firebase } = React.useContext(FirebaseContext);
   console.log(session);
   return (
     <Navbar
@@ -38,6 +40,11 @@ const NavbarApp = ({ session }) => {
             </Nav>
           )}
         </Nav>
+        {user ? (
+          <div className="mx-3">
+            <Button onClick={() => firebase.logout()}>Admin SignOut</Button>
+          </div>
+        ) : null}
       </Navbar.Collapse>
     </Navbar>
   );

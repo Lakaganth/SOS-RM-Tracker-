@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Mutation, Query } from "react-apollo";
 
-import { GET_ALL_LOCATIONS } from "../../../queries";
+import { GET_ALL_LOCATIONS, GET_ALL_COACHES } from "../../../queries";
 import { ADD_NEW_COACH_TO_LOCATION } from "./../../../queries/index";
 
 const AdminNewCoachForm = props => {
@@ -73,6 +73,7 @@ const AdminNewCoachForm = props => {
         coach_code,
         location_name
       }}
+      refetchQueries={[{ query: GET_ALL_COACHES }]}
     >
       {(addCoachToLocation, { data, loading, error }) => {
         return (

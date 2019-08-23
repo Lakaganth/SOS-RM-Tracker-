@@ -6,6 +6,13 @@ module.exports = gql`
   scalar DateTime
   scalar EmailAddress
 
+  input updatedCoachInputData {
+    coach_code: String!
+    coach_name: String!
+    coach_email: EmailAddress!
+    backup_coach: String
+  }
+
   input reportInputData {
     class_start_time: DateTime!
     class_end_time: DateTime!
@@ -96,6 +103,7 @@ module.exports = gql`
     _id: ID!
     coach_code: String!
     coach_name: String!
+    coach_email: EmailAddress!
     sport: Sport
     rmanager: RManager
     location: Location
@@ -140,7 +148,7 @@ module.exports = gql`
     getAllRM: [RManager!]!
     getAllLocation: [Location!]!
     getAllCoaches: [Coach!]!
-
+    getCurrentCoach(id: ID!): Coach!
     getCurrentRMDashboard(RMemail: EmailAddress!): rManagerWithLocation!
     getClasstimeforLocationSport(sportID: ID!, locID: ID!): [ClassTime]
     getAllClassesForCurrentRM(RMemail: EmailAddress!): [ClassTime]
@@ -157,6 +165,12 @@ module.exports = gql`
     signupRM(signupRMInput: RMSignupInputData!): Token
     signinRM(signinRMInput: RMSigninInputData!): Token
     addReport(reportInput: reportInputData!): Report
+
+    updateCoach(id: ID!, updatedCoachInput: updatedCoachInputData!): Coach!
+    deleteCoach(cID: ID!): Boolean!
+    deleteLocation(lID: ID!): Boolean!
+    deleteSport(sID: ID!): Boolean!
+    deleteRmanager(rmID: ID!): Boolean!
     deleteAll: Boolean!
   }
 `;

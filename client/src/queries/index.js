@@ -112,6 +112,18 @@ export const GET_ALL_CLASSES_FOR_CURRENT_RM = gql`
   }
 `;
 
+export const GET_CURRENT_COACH = gql`
+  query getCurrentCoach($id: ID!) {
+    getCurrentCoach(id: $id) {
+      _id
+      coach_code
+      coach_name
+      backup_coach
+      coach_email
+    }
+  }
+`;
+
 export const SIGNUP_RMANAGER = gql`
   mutation signupRM(
     $rmanager_name: String!
@@ -250,6 +262,43 @@ export const ADD_NEW_CLASS_TO_COACH = gql`
       coach_class
       coach_class_end
       day_pattern
+    }
+  }
+`;
+
+export const DELETE_LOCATION_CARD = gql`
+  mutation deleteLocation($lID: ID!) {
+    deleteLocation(lID: $lID)
+  }
+`;
+
+export const DELETE_COACH_CARD = gql`
+  mutation deleteCoach($cID: ID!) {
+    deleteCoach(cID: $cID)
+  }
+`;
+
+export const UPDATE_COACH = gql`
+  mutation updateCoach(
+    $id: ID!
+    $coach_code: String!
+    $coach_name: String!
+    $coach_email: EmailAddress!
+    $backup_coach: String
+  ) {
+    updateCoach(
+      id: $id
+      updatedCoachInput: {
+        coach_code: $coach_code
+        coach_name: $coach_name
+        coach_email: $coach_email
+        backup_coach: $backup_coach
+      }
+    ) {
+      _id
+      coach_code
+      coach_name
+      backup_coach
     }
   }
 `;
