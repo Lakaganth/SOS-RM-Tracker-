@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Mutation, graphql } from "react-apollo";
 import { SIGNUP_RMANAGER } from "./../../queries/index";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const SignupRM = props => {
   const [rmanager, setRmanager] = useState({
@@ -13,6 +17,7 @@ const SignupRM = props => {
 
   const clearState = () => {
     setRmanager({
+      rmanager_name: "",
       rmanager_email: "",
       rmanager_password: ""
     });
@@ -27,19 +32,18 @@ const SignupRM = props => {
 
   const handleSubmit = (e, signupRM) => {
     e.preventDefault();
-    console.log(rmanager);
+
     signupRM().then(async ({ data }) => {
-      console.log("Hello", data);
       localStorage.setItem("token", data.signupRM.token);
       await props.refetch();
+      props.history.push("/");
     });
     clearState();
-    props.history.push("/");
   };
 
   return (
-    <div className="row sign-in-body">
-      <h1 className="col s12">Sign Up</h1>
+    <div className=" sign-in-body">
+      <h1 className="text-center mt-5">RM Sign Up</h1>
 
       <Mutation
         mutation={SIGNUP_RMANAGER}
@@ -51,56 +55,56 @@ const SignupRM = props => {
       >
         {(signupRM, { loading, error, data }) => {
           return (
-            <form className="col s12" onSubmit={e => handleSubmit(e, signupRM)}>
-              <div className="row" />
-              <div className="row">
-                <div className="input-field col s12">
-                  <input
-                    name="rmanager_name"
-                    placeholder="Name"
-                    id="rmanager_name"
-                    type="text"
-                    className="validate"
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
+            <Form className="mt-3" onSubmit={e => handleSubmit(e, signupRM)}>
+              <Form.Group controlId="rmanager_name">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="rmanager_name"
+                  value={rmanager_name}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="rmanager_email">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="rmanager_email"
+                  value={rmanager_email}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="rmanager_password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="rmanager_password"
+                  value={rmanager_password}
+                  onChange={handleChange}
+                  required
+                  minLength="6"
+                  required
+                />
+              </Form.Group>
+
+              <div className="btns">
+                {" "}
+                <Button
+                  variant="primary"
+                  className="mx-auto"
+                  type="submit"
+                  disabled={loading}
+                >
+                  Submit
+                </Button>
+                <Link to="/sign-in" className="reg-link">
+                  back
+                </Link>
               </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input
-                    name="rmanager_email"
-                    placeholder="Email"
-                    id="rmanager_email"
-                    type="email"
-                    className="validate"
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input
-                    name="rmanager_password"
-                    placeholder="Password"
-                    id="rmanager_password"
-                    type="password"
-                    className="validate"
-                    required
-                    minLength="6"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              <input
-                type="submit"
-                className="btn"
-                value="Sign In"
-                autoComplete="off"
-              />
               {error && <p>{error.message}</p>}
-            </form>
+            </Form>
           );
         }}
       </Mutation>
@@ -109,4 +113,4 @@ const SignupRM = props => {
 };
 
 const signUpRMwithMutation = graphql(SIGNUP_RMANAGER)(SignupRM);
-export default signUpRMwithMutation;
+export default withRouter(signUpRMwithMutation);

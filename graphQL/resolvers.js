@@ -296,7 +296,7 @@ module.exports = {
         if (existingCoach) {
           // 3.1.2 Check if location is exisitng in coach
           const existloc = existingCoach.location.filter(
-            l => l != location._id
+            l => l == location._id
           );
           console.log("existloc", existloc);
           if (existloc.length > 0) {
@@ -425,30 +425,31 @@ module.exports = {
         // const exisitngClassTime = await ClassTime.findOne({
         //   coach_class: coach_class
         // });
-        const exisitngClassTime = await ClassTime.find({
-          coach_class: coach_class
+        const exisitngClassDayPattern = await ClassTime.find({
+          day_pattern
         });
+        const exisitngClassTime = await ClassTime.find({
+          coach_class
+        });
+
+        // console.log("exisitngClassDayPattern", exisitngClassDayPattern);
 
         const existingCoachId = exisitngClassTime.filter(
           ect => ect.coach.toString() === coach._id.toString()
         );
 
-        console.log("1", existingCoachId);
-        // console.log("2", coach._id);
-        // console.log("3", exisitngClassTime.coach);
+        // console.log("1", existingCoachId);
 
-        // console.log(
-        //   "Exisiting Class coach",
-        //   typeof exisitngClassTime.coach._id.toString()
-        // );
-        // console.log("Exisiting coach", typeof coach._id.toString());
-
-        // if (
-        //   exisitngClassTime &&
-        //   exisitngClassTime.coach._id.toString() === coach._id.toString()
-        // )
-        if (existingCoachId.length > 0) {
-          console.log("Exisiting Class", exisitngClassTime);
+        if (
+          exisitngClassDayPattern.length > 0 &&
+          exisitngClassTime.length > 0
+        ) {
+          console.log(
+            "Exisiting Class",
+            exisitngClassTime,
+            "exisitngClassDayPattern",
+            exisitngClassDayPattern
+          );
           throw new Error("Class to coach already exisits");
         } else {
           // 4.2 save classTime to DB
@@ -528,6 +529,10 @@ module.exports = {
         class_start_time,
         class_end_time,
         coach_arrival_time,
+        students_enrolled,
+        students_present,
+        students_unpaid,
+        feedback_severity,
         feedback,
         classTimeID
       } = reportInput;
@@ -549,6 +554,10 @@ module.exports = {
         class_start_time,
         class_end_time,
         coach_arrival_time,
+        students_enrolled,
+        students_present,
+        students_unpaid,
+        feedback_severity,
         feedback,
         class_duration,
         coach: classTime.coach,
@@ -747,7 +756,6 @@ module.exports = {
         coach_name,
         coach_email,
         backup_coach,
-
         coach_code
       } = updatedCoachInput;
 

@@ -7,9 +7,10 @@ import { Link } from "react-router-dom";
 const ClassTimeCard = ({ classtime }) => {
   console.log(classtime);
   const { coach_name } = classtime.coach;
-  const { day_pattern, coach_class } = classtime;
+  const { day_pattern, coach_class, coach_class_end } = classtime;
   const class_coach = moment(coach_class);
-  console.log(class_coach.local());
+  // const cc = class_coach._i.format("hh:mm A");
+  // console.log(cc);
   return (
     <Card
       style={{ width: "100%" }}
@@ -19,7 +20,8 @@ const ClassTimeCard = ({ classtime }) => {
       <Card.Body>
         <Card.Title>{coach_name.toUpperCase()}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
-          {day_pattern} - {coach_class.toString()}
+          {day_pattern} - {coach_class.toString()} -{" "}
+          {coach_class_end.toString()}
         </Card.Subtitle>
         <Card.Text />
         <Link to={`/add-report/${classtime._id}`}>

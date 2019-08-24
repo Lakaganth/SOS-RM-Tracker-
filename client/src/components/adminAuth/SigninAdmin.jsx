@@ -35,7 +35,7 @@ const SigninAdmin = props => {
 
   return (
     <div className="container">
-      <h2>Admin Sign in</h2>
+      <h2 className="text-center mt-5">Admin Sign in</h2>
       <Form onSubmit={handleSubmit} className="mt-3">
         <Form.Group controlId="email">
           <Form.Label>Admin Email</Form.Label>
@@ -55,9 +55,11 @@ const SigninAdmin = props => {
             required
           />
         </Form.Group>
-        <Button variant="primary" className="mx-3" type="submit">
-          Submit
-        </Button>
+        <div className="btns">
+          <Button variant="primary" className="mx-3" type="submit">
+            Submit
+          </Button>
+        </div>
       </Form>
     </div>
   );

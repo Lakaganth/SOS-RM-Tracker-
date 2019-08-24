@@ -17,6 +17,10 @@ module.exports = gql`
     class_start_time: DateTime!
     class_end_time: DateTime!
     coach_arrival_time: DateTime!
+    students_enrolled: Int!
+    students_present: Int!
+    students_unpaid: Int!
+    feedback_severity: String!
     feedback: String
     classTimeID: ID!
   }
@@ -76,6 +80,10 @@ module.exports = gql`
     class_end_time: DateTime!
     coach_arrival_time: DateTime!
     class_duration: String!
+    students_enrolled: Int!
+    students_present: Int!
+    students_unpaid: Int!
+    feedback_severity: String!
     feedback: String
   }
 

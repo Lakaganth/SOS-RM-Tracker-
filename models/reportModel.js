@@ -19,6 +19,23 @@ const ReportSchema = new Schema({
     type: String,
     required: true
   },
+  students_enrolled: {
+    type: Number,
+    required: true
+  },
+  students_present: {
+    type: Number,
+    required: true
+  },
+  students_unpaid: {
+    type: Number,
+    required: false
+  },
+  feedback_severity: {
+    type: String,
+    default: "Green",
+    required: true
+  },
   feedback: {
     type: String,
     required: false

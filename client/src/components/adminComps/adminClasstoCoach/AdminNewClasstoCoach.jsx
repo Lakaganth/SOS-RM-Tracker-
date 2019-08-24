@@ -2,6 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Mutation, Query } from "react-apollo";
+import { withRouter } from "react-router-dom";
 
 import {
   GET_ALL_COACHES,
@@ -9,7 +10,7 @@ import {
   ADD_NEW_CLASS_TO_COACH
 } from "./../../../queries/index";
 
-const AdminNewClasstoCoach = () => {
+const AdminNewClasstoCoach = props => {
   const [newClass, setNewClass] = React.useState({
     coach_name: "",
     coach_class: "",
@@ -69,7 +70,7 @@ const AdminNewClasstoCoach = () => {
     console.log(newClass);
     addClassToCoach().then(({ data }) => {
       console.log(data);
-      // props.history.push("/admin/all-coach");
+      props.history.push("/admin/page");
     });
   };
 
@@ -171,4 +172,4 @@ const AdminNewClasstoCoach = () => {
   );
 };
 
-export default AdminNewClasstoCoach;
+export default withRouter(AdminNewClasstoCoach);

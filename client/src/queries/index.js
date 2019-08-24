@@ -163,6 +163,10 @@ export const ADD_NEW_REPORT = gql`
     $class_start_time: DateTime!
     $class_end_time: DateTime!
     $coach_arrival_time: DateTime!
+    $students_enrolled: Int!
+    $students_present: Int!
+    $students_unpaid: Int!
+    $feedback_severity: String!
     $feedback: String
     $classTimeID: ID!
   ) {
@@ -171,6 +175,10 @@ export const ADD_NEW_REPORT = gql`
         class_start_time: $class_start_time
         class_end_time: $class_end_time
         coach_arrival_time: $coach_arrival_time
+        students_enrolled: $students_enrolled
+        students_present: $students_present
+        students_unpaid: $students_unpaid
+        feedback_severity: $feedback_severity
         feedback: $feedback
         classTimeID: $classTimeID
       }
@@ -180,6 +188,11 @@ export const ADD_NEW_REPORT = gql`
       coach_arrival_time
       class_duration
       feedback
+      students_unpaid
+      students_enrolled
+      students_present
+
+      feedback_severity
     }
   }
 `;
