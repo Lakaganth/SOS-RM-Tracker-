@@ -29,20 +29,26 @@ const NavbarApp = ({ session }) => {
         <Nav className="ml-auto">
           {!session ? (
             <Nav className="mr-auto pr-2 ">
-              <NavLink to="/sign-in">
-                {" "}
-                <Button>Sign In </Button>
-              </NavLink>
+              <div className="btns">
+                <NavLink to="/sign-in">
+                  {" "}
+                  <Button>Sign In </Button>
+                </NavLink>
+              </div>
             </Nav>
           ) : (
-            <Nav className="mx-5 pl-5">
-              <Signout />
+            <Nav className="mx-3 ">
+              <div className="btns">
+                <Signout />
+              </div>
             </Nav>
           )}
         </Nav>
         {user ? (
           <div className="mx-3">
-            <Button onClick={() => firebase.logout()}>Admin SignOut</Button>
+            <Button onClick={() => firebase.logout()} variant="danger">
+              Admin SignOut
+            </Button>
           </div>
         ) : null}
       </Navbar.Collapse>

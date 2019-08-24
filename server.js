@@ -1,4 +1,5 @@
 const { ApolloServer } = require("apollo-server-express");
+const { MemcachedCache } = require("apollo-server-cache-memcached");
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config({ path: "variables.env" });
@@ -24,7 +25,7 @@ app.use(async (req, res, next) => {
     try {
       const currentRM = await jwt.verify(token, process.env.SECRET);
       req.currentRM = currentRM;
-      console.log("jwt middleware server.js", req.currentRM);
+      // console.log("jwt middleware server.js", req.currentRM);
     } catch (err) {
       console.log("There is ERROR");
     }
@@ -40,6 +41,12 @@ app.use(async (req, res, next) => {
 const schema = new ApolloServer({
   typeDefs,
   resolvers,
+  persistedQueries: {
+    cache: new MemcachedCache(
+      ["memcached-server-1", "memcached-server-2", "memcached-server-3"],
+      { retries: 10, retry: 10000 } // Options
+    )
+  },
   context: ({ req, res }) => {
     return { currentRM: req.currentRM };
   },

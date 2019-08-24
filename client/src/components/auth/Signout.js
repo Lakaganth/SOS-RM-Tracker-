@@ -11,7 +11,11 @@ const Signout = () => {
   return (
     <ApolloConsumer>
       {client => {
-        return <Button onClick={() => handleSignout(client)}>Sign Out</Button>;
+        return (
+          <Button variant="danger" onClick={() => handleSignout(client)}>
+            Sign Out
+          </Button>
+        );
       }}
     </ApolloConsumer>
   );

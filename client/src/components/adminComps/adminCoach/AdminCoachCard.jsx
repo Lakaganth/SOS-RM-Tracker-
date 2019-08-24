@@ -6,6 +6,7 @@ import { Mutation } from "react-apollo";
 import { Link } from "react-router-dom";
 
 import "./AdminCoach.scss";
+import RMAllClasses from "./../../rmLanding/RMAllClasses";
 
 const AdminCoachCard = ({ coach }) => {
   const { _id, coach_code, coach_name, sport } = coach;
@@ -63,6 +64,9 @@ const AdminCoachCard = ({ coach }) => {
         <Card.Subtitle className="mb-2 text-muted">
           {capitalizeString(sport.sport_name)}
         </Card.Subtitle>
+        <Link to={`/admin/coach/class/${_id}`}>
+          <Button variant="info">Classes</Button>
+        </Link>
       </Card.Body>
     </Card>
   );

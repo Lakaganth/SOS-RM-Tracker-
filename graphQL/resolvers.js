@@ -61,8 +61,19 @@ module.exports = {
       }
     },
     getAllClassesForCoach: async (root, { id }, ctxt) => {
-      const coach = await Coach.findById(id).populate("classtime");
-      return coach;
+      try {
+        const coach = await Coach.findById(id);
+        const classTimes = await ClassTime.find({ coach: coach._id })
+          .populate("coach")
+          .populate("location")
+          .populate("rmanager")
+          .populate("sport");
+
+        return classTimes;
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
     },
     getcurrentRM: async (root, args, { currentRM }) => {
       console.log("Context in resolver", currentRM.rmanager_email);
@@ -503,7 +514,7 @@ module.exports = {
         rmanager_password
       }).save();
 
-      return { token: createToken(newRmanager, process.env.SECRET, "1hr") };
+      return { token: createToken(newRmanager, process.env.SECRET, "6hr") };
     },
     signinRM: async (root, { signinRMInput }, ctxt) => {
       const { rmanager_email, rmanager_password } = signinRMInput;
@@ -522,7 +533,7 @@ module.exports = {
         throw new Error("Invalid password");
       }
 
-      return { token: createToken(rmanager, process.env.SECRET, "1hr") };
+      return { token: createToken(rmanager, process.env.SECRET, "6hr") };
     },
     addReport: async (root, { reportInput }, ctxt) => {
       const {
@@ -746,6 +757,40 @@ module.exports = {
       });
 
       await RManager.findByIdAndRemove(rmID);
+
+      return true;
+    },
+    deleteClassTime: async (root, { ctID }, ctxt) => {
+      const classTime = await ClassTime.findById(ctID);
+      //13.1 Remove CT from location
+
+      const location = await Location.findById(classTime.location._id);
+      location.classtime = location.classtime.filter(loc => {
+        return loc.toString() != ctID;
+      });
+      location.save();
+
+      // 13.2 Remove CT from RM
+
+      const rm = await RManager.findById(classTime.rmanager);
+      rm.classtime = rm.classtime.filter(ct => ct.toString() != ctID);
+
+      // rm.save();
+
+      // 13.3 Remove CT from coach
+
+      const coach = await Coach.findById(classTime.coach);
+      coach.classtime = coach.classtime.filter(ct => ct.toString() != ctID);
+      coach.save();
+
+      // 13.4 Remove CT from sport
+
+      const sport = await Sport.findById(classTime.sport);
+      sport.classtime = sport.classtime.filter(ct => ct.toString() != ctID);
+      console.log(sport.classtime);
+      coach.save();
+
+      await ClassTime.findByIdAndRemove(ctID);
 
       return true;
     },

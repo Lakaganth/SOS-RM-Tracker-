@@ -56,7 +56,9 @@ const AdminPage = () => {
                 <Link className="pr-2" to="/admin/new-class">
                   Add Class to Coach
                 </Link>
-                <Card.Link href="#">Another Link</Card.Link>
+                <Link className="pr-2" to="/admin/all-class">
+                  All Class
+                </Link>
               </Card.Body>
             </Card>
           </div>

@@ -151,7 +151,7 @@ module.exports = gql`
   }
 
   type Query {
-    getAllClassesForCoach(id: ID!): Coach
+    getAllClassesForCoach(id: ID!): [ClassTime]
     getcurrentRM: RManager
     getAllRM: [RManager!]!
     getAllLocation: [Location!]!
@@ -179,6 +179,7 @@ module.exports = gql`
     deleteLocation(lID: ID!): Boolean!
     deleteSport(sID: ID!): Boolean!
     deleteRmanager(rmID: ID!): Boolean!
+    deleteClassTime(ctID: ID!): Boolean!
     deleteAll: Boolean!
   }
 `;
