@@ -76,6 +76,7 @@ module.exports = gql`
   }
 
   type Report {
+    _id: ID!
     class_start_time: DateTime!
     class_end_time: DateTime!
     coach_arrival_time: DateTime!
@@ -85,6 +86,10 @@ module.exports = gql`
     students_unpaid: Int!
     feedback_severity: String!
     feedback: String
+    coach: Coach
+    sport: Sport
+    location: Location
+    rmanager: [RManager]
   }
 
   type rManagerWithLocation {
@@ -161,6 +166,7 @@ module.exports = gql`
     getClasstimeforLocationSport(sportID: ID!, locID: ID!): [ClassTime]
     getAllClassesForCurrentRM(RMemail: EmailAddress!): [ClassTime]
     getAllLocationsForCoach(coachID: ID!): [Location!]!
+    getAllReportsForCoach(coachID: ID!): [Report!]!
   }
 
   type Mutation {

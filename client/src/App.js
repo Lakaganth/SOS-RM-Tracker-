@@ -27,6 +27,7 @@ import AdminNewClasstoCoach from "./components/adminComps/adminClasstoCoach/Admi
 import AdminCoachCardEdit from "./components/adminComps/adminCoach/AdminCoachCardEdit";
 import AdminAllClass from "./components/adminComps/adminClasstoCoach/AdminAllClass";
 import AdminCoachClass from "./components/adminComps/adminCoach/AdminCoachClass";
+import AdminAllReportCoach from "./components/adminComps/adminReports/AdminAllReportCoach";
 
 const App = ({ refetch, session }) => {
   const user = UseAuth();
@@ -64,6 +65,10 @@ const App = ({ refetch, session }) => {
                 <Route
                   path="/admin/coach/add-class/:coachID"
                   component={AdminNewClasstoCoach}
+                />
+                <Route
+                  path="/admin/coach/report/:coachID"
+                  component={AdminAllReportCoach}
                 />
                 <Route path="/admin/all-class" component={AdminAllClass} />
                 <Route path="/auth" component={AuthPage} refetch={refetch} />

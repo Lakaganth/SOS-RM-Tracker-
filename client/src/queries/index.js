@@ -158,6 +158,18 @@ export const GET_LOCATIONS_FOR_COACH = gql`
   }
 `;
 
+export const GET_ALL_REPORTS_COACH = gql`
+  query getAllReportsForCoach($coachID: ID!) {
+    getAllReportsForCoach(coachID: $coachID) {
+      _id
+      class_start_time
+      class_end_time
+    }
+  }
+`;
+
+// <--------------------MUTATION---------------------->
+
 export const SIGNUP_RMANAGER = gql`
   mutation signupRM(
     $rmanager_name: String!

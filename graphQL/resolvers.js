@@ -174,6 +174,23 @@ module.exports = {
         console.log(err);
         throw err;
       }
+    },
+    getAllReportsForCoach: async (root, { coachID }, ctxt) => {
+      try {
+        const coach = await Coach.findById(coachID);
+
+        const reports = coach.report.map(async r => {
+          return await Report.findById(r)
+            .sort({ class_start_time: "desc" })
+            .populate("coach");
+        });
+        console.log(reports);
+
+        return reports;
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
     }
   },
 

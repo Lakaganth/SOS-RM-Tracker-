@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 import { Mutation } from "react-apollo";
 import {
@@ -67,8 +68,9 @@ const AdminClassCoachCard = ({ classTime }) => {
             {coach_class} - {coach_class_end}
           </Card.Subtitle>
 
-          <Card.Link href="#">Card Link</Card.Link>
-          <Card.Link href="#">Another Link</Card.Link>
+          <Link to={`/admin/coach/report/${coach._id}`}>
+            <Button variant="info">Reports</Button>
+          </Link>
         </Card.Body>
       </Card>
     </div>
