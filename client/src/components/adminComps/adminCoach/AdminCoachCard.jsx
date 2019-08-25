@@ -6,7 +6,6 @@ import { Mutation } from "react-apollo";
 import { Link } from "react-router-dom";
 
 import "./AdminCoach.scss";
-import RMAllClasses from "./../../rmLanding/RMAllClasses";
 
 const AdminCoachCard = ({ coach }) => {
   const { _id, coach_code, coach_name, sport } = coach;
@@ -33,11 +32,7 @@ const AdminCoachCard = ({ coach }) => {
       <Card.Body>
         <div className="card-coach-title">
           <Card.Title>{capitalizeString(coach_name)}</Card.Title>
-          <div className="edit-button">
-            <Link to={`/admin/coach/edit/${_id}`}>
-              <Button variant="warning">edit</Button>
-            </Link>
-          </div>
+
           <div className="del-button">
             <Mutation
               mutation={DELETE_COACH_CARD}
@@ -64,9 +59,17 @@ const AdminCoachCard = ({ coach }) => {
         <Card.Subtitle className="mb-2 text-muted">
           {capitalizeString(sport.sport_name)}
         </Card.Subtitle>
-        <Link to={`/admin/coach/class/${_id}`}>
-          <Button variant="info">Classes</Button>
-        </Link>
+        <div className="coach-class-btns">
+          <Link to={`/admin/coach/edit/${_id}`}>
+            <Button variant="warning">edit</Button>
+          </Link>
+          <Link to={`/admin/coach/class/${_id}`}>
+            <Button variant="info">Classes</Button>
+          </Link>
+          <Link to={`/admin/coach/add-class/${_id}`}>
+            <Button variant="info">+ Classes</Button>
+          </Link>
+        </div>
       </Card.Body>
     </Card>
   );

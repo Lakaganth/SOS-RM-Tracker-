@@ -160,6 +160,7 @@ module.exports = gql`
     getCurrentRMDashboard(RMemail: EmailAddress!): rManagerWithLocation!
     getClasstimeforLocationSport(sportID: ID!, locID: ID!): [ClassTime]
     getAllClassesForCurrentRM(RMemail: EmailAddress!): [ClassTime]
+    getAllLocationsForCoach(coachID: ID!): [Location!]!
   }
 
   type Mutation {

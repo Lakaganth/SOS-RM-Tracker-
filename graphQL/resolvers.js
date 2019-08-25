@@ -158,6 +158,22 @@ module.exports = {
         console.error(err);
         throw err;
       }
+    },
+    getAllLocationsForCoach: async (root, { coachID }, ctxt) => {
+      try {
+        const coach = await Coach.findById(coachID);
+
+        const location = coach.location.map(async loc => {
+          return await Location.findById(loc);
+        });
+
+        console.log(location);
+
+        return location;
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
     }
   },
 

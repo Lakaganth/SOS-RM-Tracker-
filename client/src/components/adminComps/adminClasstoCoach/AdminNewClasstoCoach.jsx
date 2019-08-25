@@ -7,10 +7,14 @@ import { withRouter } from "react-router-dom";
 import {
   GET_ALL_COACHES,
   GET_ALL_LOCATIONS,
-  ADD_NEW_CLASS_TO_COACH
+  ADD_NEW_CLASS_TO_COACH,
+  GET_LOCATIONS_FOR_COACH,
+  GET_CURRENT_COACH
 } from "./../../../queries/index";
 
 const AdminNewClasstoCoach = props => {
+  const coachID = props.match.params.coachID;
+
   const [newClass, setNewClass] = React.useState({
     coach_name: "",
     coach_class: "",
@@ -28,29 +32,28 @@ const AdminNewClasstoCoach = props => {
 
   const displayAllCoachName = () => {
     return (
-      <Query query={GET_ALL_COACHES}>
+      <Query query={GET_CURRENT_COACH} variables={{ id: coachID }}>
         {({ data, loading, error }) => {
           if (loading) {
             return <option>Loading..</option>;
           }
           if (error) console.log(error);
-          return data.getAllCoaches.map(coach => (
-            <option key={coach._id}>{coach.coach_name}</option>
-          ));
+          console.log(data);
+          return <option>{data.getCurrentCoach.coach_name}</option>;
         }}
       </Query>
     );
   };
   const displayLocationName = () => {
     return (
-      <Query query={GET_ALL_LOCATIONS}>
+      <Query query={GET_LOCATIONS_FOR_COACH} variables={{ coachID }}>
         {({ data, loading, error }) => {
           if (loading) {
             return <option>Loading..</option>;
           }
           if (error) console.log(error);
 
-          return data.getAllLocation.map(loc => (
+          return data.getAllLocationsForCoach.map(loc => (
             <option key={loc._id}>{loc.location_name}</option>
           ));
         }}
