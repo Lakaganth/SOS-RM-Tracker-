@@ -13,7 +13,7 @@ import withSession from "./components/withSession";
 
 // Server Connection
 const client = new ApolloClient({
-  uri: "https://dry-everglades-22121.herokuapp.com/graphql",
+  uri: "https://dry-everglades-22121.herokuapp.com",
   fetchOptions: {
     credentials: "include"
   },
