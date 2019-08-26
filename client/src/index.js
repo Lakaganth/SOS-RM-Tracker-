@@ -13,11 +13,11 @@ import withSession from "./components/withSession";
 
 // Server Connection
 const client = new ApolloClient({
-  uri: "https://dry-everglades-22121.herokuapp.com",
+  uri: "https://dry-everglades-22121.herokuapp.com/graphql",
   fetchOptions: {
     credentials: "include"
   },
-  cache: new InMemoryCache(),
+  // cache: new InMemoryCache(),
   request: operation => {
     const token = localStorage.getItem("token");
 
@@ -28,10 +28,10 @@ const client = new ApolloClient({
     });
   },
   onError: ({ networkError }) => {
-    if (networkError) {
-      // console.log("Network error bad", networkError);
-      console.log("err");
-    }
+    // if (networkError) {
+    //   // console.log("Network error bad", networkError);
+    //   console.log("err");
+    // }
   }
 });
 

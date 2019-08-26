@@ -13,24 +13,34 @@ const resolvers = require("./graphQL/resolvers");
 require("dotenv").config({ path: "variables.env" });
 const app = express();
 
-app.use(cors());
+console.log(process.env.MONGO_URI);
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useFindAndModify: false
-    });
+// Setting up Apollo server
 
-    console.log("Mongo DB connected");
-  } catch (err) {
-    console.error(`DB connect error ${err}`);
-    process.exit(1);
-  }
-};
+// const connectDB = async () => {
+//   try {
+//     await mongoose.connect(process.env.MONGO_URI, {
+//       useNewUrlParser: true,
+//       useCreateIndex: true,
+//       useFindAndModify: false
+//     });
 
-connectDB();
+//     console.log("Mongo DB connected");
+//   } catch (err) {
+//     console.error(`DB connect error ${err}`);
+//     process.exit(1);
+//   }
+// };
+
+// connectDB();
+
+// Connects to database
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("DB connected"))
+  .catch(err => console.error(err));
+
+app.use(cors("*"));
 
 app.use(async (req, res, next) => {
   const token = req.headers["authorization"];
@@ -42,24 +52,19 @@ app.use(async (req, res, next) => {
     } catch (err) {
       console.log("There is ERROR");
     }
-  } else {
-    console.log("Token is null");
-    return null;
   }
   next();
 });
 
-// Setting up Apollo server
-
 const schema = new ApolloServer({
   typeDefs,
   resolvers,
-  persistedQueries: {
-    cache: new MemcachedCache(
-      ["memcached-server-1", "memcached-server-2", "memcached-server-3"],
-      { retries: 10, retry: 10000 } // Options
-    )
-  },
+  // persistedQueries: {
+  //   cache: new MemcachedCache(
+  //     ["memcached-server-1", "memcached-server-2", "memcached-server-3"],
+  //     { retries: 10, retry: 10000 } // Options
+  //   )
+  // },
   context: ({ req, res }) => {
     return { currentRM: req.currentRM };
   }
@@ -80,8 +85,6 @@ schema.applyMiddleware({ app });
 console.log("NODE", process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "production") {
-  // Set static folder
-
   app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
@@ -89,7 +92,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4444;
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
