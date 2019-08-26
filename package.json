@@ -2,9 +2,9 @@
   "name": "sosapp",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",,
+  "main": "server.js",
   "engines": {
-    "node":"v12.5.0"
+    "node": "v12.5.0"
   },
   "scripts": {
     "start": "node server.js",
