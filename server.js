@@ -50,13 +50,13 @@ const schema = new ApolloServer({
   },
   context: ({ req, res }) => {
     return { currentRM: req.currentRM };
-  },
-  playground: {
-    endpoint: "/graphql",
-    settings: {
-      "editor.theme": "dark"
-    }
   }
+  // playground: {
+  //   endpoint: "/graphql",
+  //   settings: {
+  //     "editor.theme": "dark"
+  //   }
+  // }
 });
 
 schema.applyMiddleware({ app });
