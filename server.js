@@ -70,6 +70,8 @@ schema.applyMiddleware({ app });
 
 // serve statc assets if in production
 
+console.log("NODE", process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === "production") {
   // Set static folder
 
