@@ -67,7 +67,7 @@ const App = ({ refetch, session }) => {
                   component={AdminNewClasstoCoach}
                 />
                 <Route
-                  path="/admin/coach/report/:coachID"
+                  path="/admin/coach/report/:id"
                   component={AdminAllReportCoach}
                 />
                 <Route path="/admin/all-class" component={AdminAllClass} />

@@ -75,6 +75,11 @@ module.exports = gql`
     location_area: String
   }
 
+  type ReportFeed {
+    cursor: ID
+    reports: [Report]
+  }
+
   type Report {
     _id: ID!
     class_start_time: DateTime!
@@ -166,12 +171,14 @@ module.exports = gql`
     getClasstimeforLocationSport(sportID: ID!, locID: ID!): [ClassTime]
     getAllClassesForCurrentRM(RMemail: EmailAddress!): [ClassTime]
     getAllLocationsForCoach(coachID: ID!): [Location!]!
-    getAllReportsForCoach(coachID: ID!): [Report!]!
+    getAllReportsForCoachLocation(coachID: ID!, locID: ID!): [Report!]!
+    getReportsFeed(cursor: ID): ReportFeed
   }
 
   type Mutation {
     createNewRManager(newRManagerInput: NewRManagerInputData!): RManager!
     createNewLocation(newLocationInput: newLocationInputData!): Location!
+    addLocationToRM(locName: String!, rmEmail: EmailAddress!): Location!
     createCoach(newCoachInput: newCoachInputData!): Coach!
     addCoachToLocation(
       coachToLocationInput: coachToLocationInputData!

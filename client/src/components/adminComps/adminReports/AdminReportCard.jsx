@@ -2,6 +2,9 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import Moment from "react-moment";
 import moment from "moment";
+import classNames from "classnames";
+
+import "./AdminReport.scss";
 
 const AdminReportCard = ({ report }) => {
   const {
@@ -13,27 +16,70 @@ const AdminReportCard = ({ report }) => {
     students_enrolled,
     students_present,
     feedback_severity,
-    feedback
+    feedback,
+    students_unpaid,
+    location
   } = report;
 
-  const start_day_num = moment(class_start_time);
-  const start_day = moment().isoWeekday(1);
-  console.log(start_day_num);
+  const reportCardClasses = classNames({
+    "mt-4": true,
+    "green-border": feedback_severity === "Green",
+    "yellow-border": feedback_severity === "Yellow",
+    "red-border": feedback_severity === "Red"
+  });
+
+  const unpaidClasses = classNames({
+    "mb-2": true,
+    "highlight-text": students_unpaid > 0
+  });
+
   return (
-    <Card style={{ width: "100%" }} className="mt-4">
+    <Card style={{ width: "100%" }} className={reportCardClasses}>
       <Card.Body>
         <div className="card-location-title">
           <Card.Title>
-            Class start:{" "}
-            <Moment format="ddd DD-MMM-YY hh:mm a">{class_start_time}</Moment>
+            <h6>Location : {location.location_name}</h6>
+            <h6>
+              Class start:{" "}
+              <span>
+                {" "}
+                <Moment format=" DD-MMM-YY hh:mm a ddd">
+                  {class_start_time}
+                </Moment>
+              </span>
+            </h6>{" "}
+            <h6>
+              Class Finish:{" "}
+              <span>
+                {" "}
+                <Moment format=" DD-MMM-YY hh:mm a ddd">
+                  {class_end_time}
+                </Moment>
+              </span>
+            </h6>{" "}
+            <h6>
+              Coach Arrival:{" "}
+              <span>
+                {" "}
+                <Moment format=" DD-MMM-YY hh:mm a ddd">
+                  {coach_arrival_time}
+                </Moment>
+              </span>
+            </h6>
           </Card.Title>
         </div>
         <Card.Subtitle className="mb-2 text-muted">
-          {class_duration} minutes
+          Class Duration: {class_duration} minutes
         </Card.Subtitle>
-        <Card.Subtitle className="mb-2 text-muted">
-          {students_present}
-        </Card.Subtitle>
+        <div className="Students-attendence">
+          <Card.Subtitle className="mb-2 text-muted">
+            <span>Present/ Enrolled :</span> {students_present} /{" "}
+            {students_enrolled}
+          </Card.Subtitle>
+          <Card.Subtitle className="mb-2 ">
+            <span>Unpaid</span> {students_unpaid} / {students_enrolled}
+          </Card.Subtitle>
+        </div>
       </Card.Body>
     </Card>
   );

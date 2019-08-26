@@ -21,8 +21,6 @@ const AdminClassCoachCard = ({ classTime }) => {
     coach
   } = classTime;
 
-  console.log(coach);
-
   const cardClassDelete = (e, deleteClassTime) => {
     console.log("Lets's delete");
     deleteClassTime().then(({ data }) => {
@@ -68,7 +66,7 @@ const AdminClassCoachCard = ({ classTime }) => {
             {coach_class} - {coach_class_end}
           </Card.Subtitle>
 
-          <Link to={`/admin/coach/report/${coach._id}`}>
+          <Link to={`/admin/coach/report/${coach._id}&${location._id}`}>
             <Button variant="info">Reports</Button>
           </Link>
         </Card.Body>

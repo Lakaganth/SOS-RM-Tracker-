@@ -139,6 +139,7 @@ export const GET_ALL_CLASSES_FOR_COACH = gql`
         sport_name
       }
       location {
+        _id
         location_name
       }
       rmanager {
@@ -159,11 +160,23 @@ export const GET_LOCATIONS_FOR_COACH = gql`
 `;
 
 export const GET_ALL_REPORTS_COACH = gql`
-  query getAllReportsForCoach($coachID: ID!) {
-    getAllReportsForCoach(coachID: $coachID) {
+  query getAllReportsForCoachLocation($coachID: ID!, $locID: ID!) {
+    getAllReportsForCoachLocation(coachID: $coachID, locID: $locID) {
       _id
       class_start_time
       class_end_time
+      coach_arrival_time
+      class_duration
+      students_enrolled
+      students_present
+      students_unpaid
+      feedback_severity
+      feedback
+
+      location {
+        _id
+        location_name
+      }
     }
   }
 `;

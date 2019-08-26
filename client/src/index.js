@@ -6,7 +6,7 @@ import "./index.css";
 import App from "./App";
 
 // Appollo imports
-import ApolloClient from "apollo-boost";
+import ApolloClient, { InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
 import withSession from "./components/withSession";
@@ -17,6 +17,7 @@ const client = new ApolloClient({
   fetchOptions: {
     credentials: "include"
   },
+  cache: new InMemoryCache(),
   request: operation => {
     const token = localStorage.getItem("token");
 

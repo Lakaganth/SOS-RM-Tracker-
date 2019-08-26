@@ -54,6 +54,8 @@ module.exports = {
     getAllCoaches: async (root, args, ctxt) => {
       try {
         const coach = await Coach.find().populate("sport");
+
+        console.log(coach);
         return coach;
       } catch (err) {
         console.log(err);
@@ -175,18 +177,76 @@ module.exports = {
         throw err;
       }
     },
-    getAllReportsForCoach: async (root, { coachID }, ctxt) => {
+    getAllReportsForCoachLocation: async (root, { coachID, locID }, ctxt) => {
       try {
+        console.log(locID);
         const coach = await Coach.findById(coachID);
-
+        coach.location = coach.location.filter(c => {
+          return c.toString() == locID;
+        });
         const reports = coach.report.map(async r => {
           return await Report.findById(r)
-            .sort({ class_start_time: "desc" })
-            .populate("coach");
+            .sort({ create_at: "desc" })
+            .populate("coach")
+            .populate("location");
         });
-        console.log(reports);
+        reports.location = coach.location;
 
+        reportss = reports.location.filter(async rp => {
+          console.log(rp);
+          return rp.toString() == locID;
+        });
+        // console.log("reports.location", reports.location);
+        // console.log("coach Loaction", coach.location);
+        console.log(reportss);
+        // console.log("coachLoc", coachLoc);
+
+        // const res = reports.filter(async rp => {
+        //   return rp.location._id.toString() == locID;
+        // });
+        // console.log(res);
         return reports;
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+    },
+    getReportsFeed: async (root, { cursor }, ctxt) => {
+      try {
+        const report = await Report.find();
+        // console.log(report);
+
+        if (!cursor) {
+          console.log("length", report.length);
+          cursor = report[report.length - 1]._id;
+          console.log("cursor", cursor);
+        }
+
+        // cursor = parseInt(cursor);
+        console.log("hello", typeof cursor);
+
+        const limit = 2;
+
+        // We need to return a new cursor to the client so that it
+        // can find the next page. Let's set newCursor to the
+        // createdAt time of the last message in this messageFeed:
+        const newestReportIndex = report.findIndex(r => {
+          return r._id.toString() === cursor.toString();
+        }); // find index of message created at time held in cursor
+
+        console.log("newestReportIndex", newestReportIndex);
+
+        // We need to return a new cursor to the client so that it
+        // can find the next page. Let's set newCursor to the
+        // createdAt time of the last message in this messageFeed:
+        const newCursor = report[newestReportIndex - limit]._id;
+
+        const ReportFeed = {
+          reports: report.slice(newestReportIndex - limit, newestReportIndex),
+          cursor: newCursor
+        };
+
+        return ReportFeed;
       } catch (err) {
         console.log(err);
         throw err;
@@ -246,28 +306,71 @@ module.exports = {
       console.log(newLocationInput.location_name);
 
       try {
-        const newLocation = new Location({
-          location_name,
-          location_code,
-          location_area
-        });
-        console.log(newLocation);
+        const existingLocation = await Location.findOne({ location_code });
 
-        const existingRManager = await RManager.findOne({
-          rmanager_email: location_rmanager_email
-        });
-        if (existingRManager) {
-          newLocation.rmanager.push(existingRManager._id);
-          existingRManager.location.push(newLocation._id);
-          await existingRManager.save();
-          await newLocation.save();
-          return newLocation;
+        if (existingLocation) {
+          const existrManager = await RManager.findOne({
+            rmanager_email: location_rmanager_email
+          });
+
+          const checkrm = existingLocation.rmanager.filter(
+            rm => rm._id.toString() == existrManager._id
+          );
+
+          console.log(checkrm);
+          if (checkrm.length > 0) {
+            throw new Error("RM already exists ");
+          }
+
+          existrManager.location.push(existingLocation._id);
+          existingLocation.rmanager.push(existrManager._id);
+
+          await existrManager.save();
+          await existingLocation.save();
+
+          return existingLocation;
+        } else {
+          const newLocation = new Location({
+            location_name,
+            location_code,
+            location_area
+          });
+          console.log(newLocation);
+
+          const existingRManager = await RManager.findOne({
+            rmanager_email: location_rmanager_email
+          });
+          if (existingRManager) {
+            newLocation.rmanager.push(existingRManager._id);
+            existingRManager.location.push(newLocation._id);
+            await existingRManager.save();
+            await newLocation.save();
+            return newLocation;
+          }
         }
       } catch (err) {
         console.log(err);
-        throw err;
+        throw new Error("Error", err);
       }
     },
+    // addLocationToRM: async (root, { locName, rmEmail }, ctxt) => {
+    //   try {
+    //     const location = await Location.findOne({
+    //       location_name: locName
+    //     }).populate("rmanager");
+
+    //     const rManager = await RManager.findOne({ rmanager_email: rmEmail });
+    //     console.log(rManager);
+    //     location.rmanager.push(rManager._id);
+    //     rManager.location.push(location._id);
+    //     //console.log(location);
+    //     console.log("rmanager", rManager);
+    //     return location;
+    //   } catch (err) {
+    //     console.log(err);
+    //     throw new Error("Error", err);
+    //   }
+    // },
     createCoach: async (root, { newCoachInput }, ctxt) => {
       const {
         coach_name,
@@ -309,7 +412,7 @@ module.exports = {
         return coach;
       } catch (err) {
         console.log(err);
-        throw err;
+        throw new Error("Error", err);
       }
     },
 
