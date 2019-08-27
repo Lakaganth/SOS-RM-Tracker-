@@ -17,21 +17,21 @@ const AdminCoachCard = ({ coach }) => {
     });
   };
 
-  const capitalizeString = str => {
-    return str
-      .toLowerCase()
-      .split(" ")
-      .map(function(word) {
-        return word[0].toUpperCase() + word.substr(1);
-      })
-      .join(" ");
-  };
+  // const capitalizeString = str => {
+  //   return str
+  //     .toLowerCase()
+  //     .split(" ")
+  //     .map(function(word) {
+  //       return word[0].toUpperCase() + word.substr(1);
+  //     })
+  //     .join(" ");
+  // };
 
   return (
     <Card style={{ width: "100%" }} className="mt-4">
       <Card.Body>
         <div className="card-coach-title">
-          <Card.Title>{capitalizeString(coach_name)}</Card.Title>
+          <Card.Title>{coach_name}</Card.Title>
 
           <div className="del-button">
             <Mutation
@@ -57,7 +57,7 @@ const AdminCoachCard = ({ coach }) => {
 
         <Card.Subtitle className="mb-2 text-muted">{coach_code}</Card.Subtitle>
         <Card.Subtitle className="mb-2 text-muted">
-          {capitalizeString(sport.sport_name)}
+          {sport.sport_name}
         </Card.Subtitle>
         <div className="coach-class-btns">
           <Link to={`/admin/coach/edit/${_id}`}>
