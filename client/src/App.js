@@ -28,6 +28,7 @@ import AdminCoachCardEdit from "./components/adminComps/adminCoach/AdminCoachCar
 import AdminAllClass from "./components/adminComps/adminClasstoCoach/AdminAllClass";
 import AdminCoachClass from "./components/adminComps/adminCoach/AdminCoachClass";
 import AdminAllReportCoach from "./components/adminComps/adminReports/AdminAllReportCoach";
+import AdminNavbar from "./components/nav/AdminNavbar";
 
 const App = ({ refetch, session }) => {
   const user = UseAuth();
@@ -35,10 +36,15 @@ const App = ({ refetch, session }) => {
     <FirebaseContext.Provider value={{ user, firebase }}>
       <Fragment>
         <Router>
-          <Route
-            path="/"
-            render={() => <NavbarApp refetch={refetch} session={session} />}
-          />
+          {session ? (
+            <Route
+              path="/"
+              render={() => <NavbarApp refetch={refetch} session={session} />}
+            />
+          ) : (
+            <AdminNavbar></AdminNavbar>
+          )}
+
           <Switch>
             <Fragment>
               <div className="container">
@@ -76,10 +82,17 @@ const App = ({ refetch, session }) => {
                   path="/sign-up"
                   render={() => <SignupRM refetch={refetch} />}
                 />
-                <Route
+                {/* <Route
                   path="/sign-in"
                   render={() => <SigninRM refetch={refetch} />}
-                />
+                /> */}
+                {!session ? (
+                  <Route
+                    path="/"
+                    exact
+                    render={() => <SigninRM refetch={refetch} />}
+                  />
+                ) : null}
                 {session ? (
                   <Route
                     path="/"

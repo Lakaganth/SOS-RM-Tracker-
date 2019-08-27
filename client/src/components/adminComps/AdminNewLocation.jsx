@@ -7,8 +7,6 @@ import Button from "react-bootstrap/Button";
 import { GET_ALL_RM, GET_ALL_LOCATIONS } from "../../queries";
 import { ADMIN_ADD_NEW_LOCATION } from "./../../queries/index";
 
-import produce from "immer";
-
 const AdminNewLocation = props => {
   const { user } = React.useContext(FirebaseContext);
   console.log(user);

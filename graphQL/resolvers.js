@@ -438,9 +438,10 @@ module.exports = {
         const rmanagerID = location.rmanager.map(rm => {
           return rm._id;
         });
-        console.log("rmanagerID", rmanagerID);
+        console.log("1.1 rmanagerID", rmanagerID);
         // 3.1. Check exisitng coach
         if (existingCoach) {
+          console.log("Coach Exists");
           // 3.1.2 Check if location is exisitng in coach
           const existloc = existingCoach.location.filter(
             l => l == location._id
@@ -451,7 +452,19 @@ module.exports = {
             return location;
           } else {
             existingCoach.location.push(location._id);
-            existingCoach.rmanager.push(location.rmanager.map(rm => rm));
+
+            // unable to push an array into another array
+            location.rmanager.map(rm => {
+              const crm = existingCoach.rmanager.filter(
+                crm => crm.toString() === rm.toString()
+              );
+              console.log("1.3 RM", crm);
+              if (crm.length > 0) {
+                console.log("RM already exisitng for this coach");
+                throw new Error("RM already exisitng for this coach ");
+              }
+              existingCoach.rmanager.push(rm);
+            });
             await existingCoach.save();
             const sport_id = existingCoach.sport._id;
             location.coach.push(existingCoach._id);
@@ -475,7 +488,17 @@ module.exports = {
             backup_coach,
             coach_code
           });
-          newCoach.rmanager.push(location.rmanager.map(rm => rm));
+
+          // location.rmanager.map(rm => {
+          //   console.log(rm);
+          //   return newCoach.rmanager.push(rm);
+          // });
+          console.log("before", newCoach.rmanager);
+
+          newCoach.rmanager = location.rmanager;
+
+          console.log("after", typeof newCoach.rmanager);
+
           //await newCoach.save();
 
           // 3.2.1Check if sport already exists or add new Sport
@@ -506,7 +529,8 @@ module.exports = {
             });
             newSport.coach.push(newCoach._id);
             newSport.location.push(location._id);
-            newSport.rmanager.push(location.rmanager.map(rm => rm));
+            // newSport.rmanager.push(location.rmanager.map(rm => rm));
+            newSport.rmanager = location.rmanage;
 
             const sport = await newSport.save();
             newCoach.sport = sport._id;
@@ -514,6 +538,7 @@ module.exports = {
           }
 
           const coach = await newCoach.save();
+          console.log("after save", coach);
 
           coach.location.push(location._id);
           await coach.save();
@@ -528,8 +553,7 @@ module.exports = {
             const exisitngSportInRM = rmManager.sport.filter(
               sp => sp.toString() === sport_id.toString()
             );
-            console.log("exisitngSportInRM", exisitngSportInRM);
-            console.log("sport_id", sport_id);
+
             // rmManager.sport.push(sport_id);
             if (exisitngSportInRM.length == 0) {
               rmManager.sport.push(sport_id);

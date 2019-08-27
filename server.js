@@ -13,8 +13,6 @@ const resolvers = require("./graphQL/resolvers");
 require("dotenv").config({ path: "variables.env" });
 const app = express();
 
-console.log(process.env.MONGO_URI);
-
 // Setting up Apollo server
 
 // const connectDB = async () => {
@@ -36,7 +34,11 @@ console.log(process.env.MONGO_URI);
 
 // Connects to database
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  })
   .then(() => console.log("DB connected"))
   .catch(err => console.error(err));
 
@@ -67,13 +69,13 @@ const schema = new ApolloServer({
   // },
   context: ({ req, res }) => {
     return { currentRM: req.currentRM };
+  },
+  playground: {
+    endpoint: "/graphql",
+    settings: {
+      "editor.theme": "dark"
+    }
   }
-  // playground: {
-  //   endpoint: "/graphql",
-  //   settings: {
-  //     "editor.theme": "dark"
-  //   }
-  // }
 });
 
 schema.applyMiddleware({ app });
@@ -81,8 +83,6 @@ schema.applyMiddleware({ app });
 //PORT Config
 
 // serve statc assets if in production
-
-console.log("NODE", process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -92,7 +92,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const PORT = process.env.PORT || 4444;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
