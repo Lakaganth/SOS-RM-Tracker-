@@ -99,7 +99,7 @@ const SignupRM = props => {
                 >
                   Submit
                 </Button>
-                <Link to="/sign-in" className="reg-link">
+                <Link to="/" className="reg-link">
                   back
                 </Link>
               </div>

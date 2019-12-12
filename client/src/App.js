@@ -42,7 +42,11 @@ const App = ({ refetch, session }) => {
               render={() => <NavbarApp refetch={refetch} session={session} />}
             />
           ) : (
-            <AdminNavbar></AdminNavbar>
+            <Route
+              path="/"
+              render={() => <AdminNavbar refetch={refetch} session={session} />}
+            />
+            // <AdminNavbar></AdminNavbar>
           )}
 
           <Switch>

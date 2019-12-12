@@ -10,7 +10,9 @@ const path = require("path");
 const mongoose = require("mongoose");
 const typeDefs = require("./graphQL/typeDefs");
 const resolvers = require("./graphQL/resolvers");
-require("dotenv").config({ path: "variables.env" });
+
+
+
 const app = express();
 
 // Setting up Apollo server

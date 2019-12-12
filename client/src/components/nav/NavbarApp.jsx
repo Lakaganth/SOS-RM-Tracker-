@@ -9,6 +9,7 @@ import Signout from "../auth/Signout";
 import "./NavbarApp.scss";
 
 const NavbarApp = ({ session }) => {
+  console.log(session);
   return (
     <Navbar
       collapseOnSelect

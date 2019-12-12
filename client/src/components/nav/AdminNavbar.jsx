@@ -3,14 +3,13 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import FirebaseContext from "../../context/firebase/firebaseContext";
-import { Redirect } from "react-router-dom";
 
 import "./NavbarApp.scss";
 
-const AdminNavbar = () => {
+const AdminNavbar = props => {
   const { user, firebase } = React.useContext(FirebaseContext);
 
   const adminSignOut = () => {
@@ -34,11 +33,17 @@ const AdminNavbar = () => {
         <Nav className="ml-auto">
           {user ? (
             <div className="mx-3">
-              <Button onClick={() => adminSignOut()} variant="danger">
+              <Button onClick={adminSignOut} variant="danger">
                 Admin SignOut
               </Button>
             </div>
-          ) : null}
+          ) : (
+            <div className="mx-3">
+              <Link to="/admin/sign-in">
+                <Button>Admin</Button>
+              </Link>
+            </div>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>

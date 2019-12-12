@@ -1,0 +1,7 @@
+Admin Section
+
+* Back Button to all the Section
+* Mobile view to columns
+* Description of what Location and Coaches do as sub heading.
+* Edit the classes and other boxes with titles
+* Reports card..
