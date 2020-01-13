@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
+import history from "./history";
 
 // Firebase Admin Auth
 import FirebaseContext from "./context/firebase/firebaseContext";
@@ -35,7 +36,7 @@ const App = ({ refetch, session }) => {
   return (
     <FirebaseContext.Provider value={{ user, firebase }}>
       <Fragment>
-        <Router>
+        <Router history={history}>
           {session ? (
             <Route
               path="/"

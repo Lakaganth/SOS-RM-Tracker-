@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 
 import "./AdminLocation.scss";
 
-const AdminPage = () => {
+const AdminPage = props => {
   const { user } = React.useContext(FirebaseContext);
   console.log(user);
 
@@ -16,11 +16,12 @@ const AdminPage = () => {
     return (
       <div className="mx-auto">
         <h3 className="text-center  mt-3 mb-4">Admin Page</h3>
+
         <div className="mx-auto">
           <div className="m-3">
             <Card style={{ width: "100%" }}>
               <Card.Body>
-                <Card.Title>Location</Card.Title>
+                <Card.Title className="text-center">Location</Card.Title>
                 {/* <Card.Subtitle className="mb-2 text-muted">
                   Card Subtitle
                 </Card.Subtitle> */}
@@ -40,7 +41,7 @@ const AdminPage = () => {
           <div className="m-3">
             <Card style={{ width: "100%" }}>
               <Card.Body>
-                <Card.Title> Coach </Card.Title>
+                <Card.Title className="text-center"> Coach </Card.Title>
                 {/* <Card.Subtitle className="mb-2 text-muted">
                   Card Subtitle
                 </Card.Subtitle> */}
@@ -56,23 +57,6 @@ const AdminPage = () => {
               </Card.Body>
             </Card>
           </div>
-          {/* <div className="m-3">
-            <Card style={{ width: "100%" }}>
-              <Card.Body>
-                <Card.Title>Add Class to Coach</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Card Subtitle
-                </Card.Subtitle>
-
-                <Link className="pr-2" to="/admin/new-class">
-                  Add Class to Coach
-                </Link>
-                <Link className="pr-2" to="/admin/all-class">
-                  All Class
-                </Link>
-              </Card.Body>
-            </Card>
-          </div> */}
         </div>
       </div>
     );

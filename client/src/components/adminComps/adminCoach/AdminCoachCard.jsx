@@ -12,20 +12,8 @@ const AdminCoachCard = ({ coach }) => {
 
   const cardCoachDelete = (e, deleteCoach) => {
     console.log("Lets's delete");
-    deleteCoach().then(({ data }) => {
-      console.log(data);
-    });
+    deleteCoach().then(({ data }) => {});
   };
-
-  // const capitalizeString = str => {
-  //   return str
-  //     .toLowerCase()
-  //     .split(" ")
-  //     .map(function(word) {
-  //       return word[0].toUpperCase() + word.substr(1);
-  //     })
-  //     .join(" ");
-  // };
 
   return (
     <Card style={{ width: "100%" }} className="mt-4">
@@ -55,9 +43,11 @@ const AdminCoachCard = ({ coach }) => {
           </div>
         </div>
 
-        <Card.Subtitle className="mb-2 text-muted">{coach_code}</Card.Subtitle>
         <Card.Subtitle className="mb-2 text-muted">
-          {sport.sport_name}
+          <span>Coach Code :</span> {coach_code}
+        </Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">
+          Sport: {sport.sport_name}
         </Card.Subtitle>
         <div className="coach-class-btns">
           <Link to={`/admin/coach/edit/${_id}`}>

@@ -442,6 +442,7 @@ module.exports = {
         // 3.1. Check exisitng coach
         if (existingCoach) {
           console.log("Coach Exists");
+          console.log(existingCoach);
           // 3.1.2 Check if location is exisitng in coach
           const existloc = existingCoach.location.filter(
             l => l == location._id
@@ -459,10 +460,10 @@ module.exports = {
                 crm => crm.toString() === rm.toString()
               );
               console.log("1.3 RM", crm);
-              if (crm.length > 0) {
-                console.log("RM already exisitng for this coach");
-                throw new Error("RM already exisitng for this coach ");
-              }
+              // if (crm.length > 0) {
+              //   console.log("RM already exisitng for this coach");
+              //   throw new Error("RM already exisitng for this coach ");
+              // }
               existingCoach.rmanager.push(rm);
             });
             await existingCoach.save();

@@ -5,6 +5,7 @@ import { Mutation, Query } from "react-apollo";
 
 import { GET_ALL_LOCATIONS, GET_ALL_COACHES } from "../../../queries";
 import { ADD_NEW_COACH_TO_LOCATION } from "./../../../queries/index";
+import { BackButton } from "../../backButton/BackButton";
 
 const AdminNewCoachForm = props => {
   const [newCoach, setNewCoach] = React.useState({
@@ -27,6 +28,10 @@ const AdminNewCoachForm = props => {
     coach_code,
     location_name
   } = newCoach;
+
+  const goBack = () => {
+    props.history.push("/admin/page");
+  };
 
   const displayLocationName = () => {
     return (
@@ -81,6 +86,10 @@ const AdminNewCoachForm = props => {
             className="mt-3"
             onSubmit={e => handleSubmit(e, addCoachToLocation)}
           >
+            <div className="back-btn" onClick={goBack}>
+              <BackButton></BackButton>
+            </div>
+
             <Form.Group controlId="coach_name">
               <Form.Label>Coach Name</Form.Label>
               <Form.Control

@@ -5,7 +5,37 @@
   justify-content: center;
 }
 
-.reg-link {
-  text-decoration: underline;
-  margin-top: 1rem;
+// .reg-link {
+//   text-decoration: underline;
+//   // margin-top: 1rem;
+// }
+
+.home-admin-button {
+  a {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+  }
+  a:visited:active {
+    color: #fff;
+  }
+}
+
+.signup-admin-button {
+  a {
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+  }
+  a:visited:active {
+    color: #fff;
+  }
+}
+
+.home-aux-links {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 20vh;
+  padding-left: 10vw;
 }

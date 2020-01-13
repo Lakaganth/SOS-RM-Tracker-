@@ -11,9 +11,11 @@ import "./NavbarApp.scss";
 
 const AdminNavbar = props => {
   const { user, firebase } = React.useContext(FirebaseContext);
+  console.log(props);
 
   const adminSignOut = () => {
     firebase.logout();
+    props.history.push("/");
   };
 
   return (

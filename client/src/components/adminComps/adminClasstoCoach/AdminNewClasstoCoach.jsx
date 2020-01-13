@@ -11,6 +11,7 @@ import {
   GET_LOCATIONS_FOR_COACH,
   GET_CURRENT_COACH
 } from "./../../../queries/index";
+import { BackButton } from "../../backButton/BackButton";
 
 const AdminNewClasstoCoach = props => {
   const coachID = props.match.params.coachID;
@@ -67,6 +68,9 @@ const AdminNewClasstoCoach = props => {
       [e.target.name]: e.target.value
     });
   };
+  const goBack = () => {
+    props.history.push("/admin/all-coach");
+  };
 
   const handleSubmit = (e, addClassToCoach) => {
     e.preventDefault();
@@ -96,6 +100,9 @@ const AdminNewClasstoCoach = props => {
               className="mt-3"
               onSubmit={e => handleSubmit(e, addClassToCoach)}
             >
+              <div className="back-btn" onClick={goBack}>
+                <BackButton></BackButton>
+              </div>
               <Form.Group controlId="coach_name">
                 <Form.Label>Coach Name</Form.Label>
                 <Form.Control

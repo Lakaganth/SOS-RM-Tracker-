@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { GET_ALL_RM, GET_ALL_LOCATIONS } from "../../queries";
 import { ADMIN_ADD_NEW_LOCATION } from "./../../queries/index";
+import { BackButton } from "../backButton/BackButton";
 
 const AdminNewLocation = props => {
   const { user } = React.useContext(FirebaseContext);
@@ -25,6 +26,10 @@ const AdminNewLocation = props => {
     location_rmanager_email,
     location_rmanager_name
   } = newLocation;
+
+  const goBack = () => {
+    props.history.push("/admin/page");
+  };
 
   const displayRMEmail = () => {
     return (
@@ -112,6 +117,9 @@ const AdminNewLocation = props => {
                 className="mt-3"
                 onSubmit={e => handleSubmit(e, createNewLocation)}
               >
+                <div className="back-btn" onClick={goBack}>
+                  <BackButton></BackButton>
+                </div>
                 <Form.Group controlId="location_name">
                   <Form.Label>Location Name</Form.Label>
                   <Form.Control

@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import FirebaseContext from "./../../context/firebase/firebaseContext";
 
 import "./AuthStyles.scss";
 
@@ -15,6 +16,10 @@ const SigninRM = props => {
   });
 
   const { rmanager_email, rmanager_password } = rmanager;
+
+  // Admin user Sign in
+  const { user } = React.useContext(FirebaseContext);
+  console.log(user);
 
   const clearState = () => {
     setRmanager({
@@ -85,9 +90,29 @@ const SigninRM = props => {
                 >
                   Submit
                 </Button>
-                <Link to="/sign-up" className="reg-link">
-                  Register
-                </Link>
+                <div className="home-aux-links">
+                  <Button variant="warning" className="signup-admin-button">
+                    <Link to="/sign-up" className="reg-link">
+                      Register
+                    </Link>
+                  </Button>
+                  {user ? (
+                    <Button variant="success" className="mx-auto">
+                      <Link to="/admin/page" className="reg-link">
+                        Admin
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="dark"
+                      className="mx-auto home-admin-button "
+                    >
+                      <Link to="/admin/sign-in" className="reg-link">
+                        Admin
+                      </Link>
+                    </Button>
+                  )}
+                </div>
               </div>
 
               {error && <p>{error.message}</p>}

@@ -7,7 +7,6 @@ import { UPDATE_COACH } from "./../../../queries/index";
 
 const AdminCoachCardEdit = ({ match }) => {
   const cID = match.params.cID;
-  //   console.log(cID);
 
   const [editCoach, setEditCoach] = React.useState({
     coach_code: "",
@@ -19,10 +18,6 @@ const AdminCoachCardEdit = ({ match }) => {
   const { coach_name, coach_email, backup_coach, coach_code } = editCoach;
 
   const onCompletedHandler = data => {
-    // if (error) console.log(error);
-    // if (loading) return null;
-    // if (data) {
-
     if (!data) return console.log("no luck");
 
     setEditCoach({
@@ -41,11 +36,9 @@ const AdminCoachCardEdit = ({ match }) => {
         onCompleted={onCompletedHandler}
       >
         {({ data, loading, error }) => {
-          //   console.log("worlds");
           if (error) console.log(error);
           if (loading) return <h4>Loading...</h4>;
-          //   console.log("data", data);
-          //   const currentCoach = data.getCurrentCoach;
+
           return (
             <div>
               <Form.Group controlId="coach_name">
@@ -94,7 +87,6 @@ const AdminCoachCardEdit = ({ match }) => {
     );
   };
 
-  //   console.log(getCurrentCoachToEdit());
   const handleChange = e => {
     setEditCoach({
       ...editCoach,
@@ -112,7 +104,6 @@ const AdminCoachCardEdit = ({ match }) => {
   };
 
   React.useEffect(() => {
-    // console.log("effect");
     onCompletedHandler();
     // getCurrentCoachToEdit();
     // -disable-next-line
@@ -134,9 +125,6 @@ const AdminCoachCardEdit = ({ match }) => {
         }}
       >
         {(updateCoach, { data, loading, error }) => {
-          //   console.log("hello");
-
-          //   console.log(world);
           return (
             <Form className="mt-3" onSubmit={e => handleSubmit(e, updateCoach)}>
               {getCurrentCoachToEdit()}

@@ -22,7 +22,6 @@ const AdminClassCoachCard = ({ classTime }) => {
   } = classTime;
 
   const cardClassDelete = (e, deleteClassTime) => {
-    console.log("Lets's delete");
     deleteClassTime().then(({ data }) => {
       console.log(data);
     });
