@@ -5,3 +5,13 @@ Admin Section
 * Description of what Location and Coaches do as sub heading.
 * Edit the classes and other boxes with titles
 * Reports card..
+
+
+Coaches
+
+Jose Mourinhio CC001  Football    SC023 
+Anil Kumble CC002  Cricket  SC005
+Kobe Bryant CC003  Basketball SC002
+John Thompkins  CC004 Chess SC006
+Sara McLean   CC005  Motor Skills SC015
+Jordan Carter CC006  Volleyball SC019

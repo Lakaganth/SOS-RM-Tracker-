@@ -5,13 +5,14 @@ import { Mutation, Query } from "react-apollo";
 import { withRouter } from "react-router-dom";
 
 import {
-  GET_ALL_COACHES,
-  GET_ALL_LOCATIONS,
+  // GET_ALL_COACHES,
+  // GET_ALL_LOCATIONS,
   ADD_NEW_CLASS_TO_COACH,
   GET_LOCATIONS_FOR_COACH,
   GET_CURRENT_COACH
 } from "./../../../queries/index";
 import { BackButton } from "../../backButton/BackButton";
+import history from "./../../../history";
 
 const AdminNewClasstoCoach = props => {
   const coachID = props.match.params.coachID;
@@ -69,7 +70,7 @@ const AdminNewClasstoCoach = props => {
     });
   };
   const goBack = () => {
-    props.history.push("/admin/all-coach");
+    history.push("/admin/all-coach");
   };
 
   const handleSubmit = (e, addClassToCoach) => {
@@ -77,7 +78,7 @@ const AdminNewClasstoCoach = props => {
     console.log(newClass);
     addClassToCoach().then(({ data }) => {
       console.log(data);
-      props.history.push("/admin/page");
+      history.push("/admin/all-coach");
     });
   };
 

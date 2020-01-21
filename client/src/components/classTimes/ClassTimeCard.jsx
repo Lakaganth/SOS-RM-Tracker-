@@ -1,16 +1,14 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import moment from "moment";
+
 import { Link } from "react-router-dom";
 
 const ClassTimeCard = ({ classtime }) => {
   console.log(classtime);
   const { coach_name } = classtime.coach;
   const { day_pattern, coach_class, coach_class_end } = classtime;
-  const class_coach = moment(coach_class);
-  // const cc = class_coach._i.format("hh:mm A");
-  // console.log(cc);
+
   return (
     <Card
       style={{ width: "100%" }}

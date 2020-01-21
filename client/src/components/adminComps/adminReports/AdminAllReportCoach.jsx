@@ -29,7 +29,7 @@ const AdminAllReportCoach = props => {
             rp => {
               // console.log(rp.location._id);
               console.log(locID);
-              return rp.location._id == locID;
+              return rp.location._id === locID;
               // return rp;
             }
           );

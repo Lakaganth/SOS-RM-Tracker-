@@ -36,7 +36,7 @@ const ReportForm = ({ match, history }) => {
     start_time,
     end_time,
     arrival_time,
-    classTimeID,
+
     students_enrolled,
     students_present,
     students_unpaid,

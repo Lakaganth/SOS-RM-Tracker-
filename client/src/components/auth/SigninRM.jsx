@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import FirebaseContext from "./../../context/firebase/firebaseContext";
 
 import "./AuthStyles.scss";
+import history from "./../../history";
 
 const SigninRM = props => {
   const [rmanager, setRmanager] = useState({
@@ -41,7 +42,7 @@ const SigninRM = props => {
     signinRM().then(async ({ data }) => {
       localStorage.setItem("token", data.signinRM.token);
       await props.refetch();
-      props.history.push("/");
+      history.push("/");
     });
     clearState();
     // props.history.push("/");
@@ -77,7 +78,6 @@ const SigninRM = props => {
                   onChange={handleChange}
                   required
                   minLength="6"
-                  required
                 />
               </Form.Group>
               <div className="btns">
@@ -90,14 +90,17 @@ const SigninRM = props => {
                 >
                   Submit
                 </Button>
+                <p style={{ paddingTop: "2vh" }}>New Manager?</p>
+                <Link to="/sign-up" className="reg-link">
+                  Register
+                </Link>
                 <div className="home-aux-links">
-                  <Button variant="warning" className="signup-admin-button">
-                    <Link to="/sign-up" className="reg-link">
-                      Register
-                    </Link>
-                  </Button>
                   {user ? (
-                    <Button variant="success" className="mx-auto">
+                    <Button
+                      variant="success"
+                      className="mx-auto"
+                      style={{ marginTop: "2vh" }}
+                    >
                       <Link to="/admin/page" className="reg-link">
                         Admin
                       </Link>
@@ -106,6 +109,7 @@ const SigninRM = props => {
                     <Button
                       variant="dark"
                       className="mx-auto home-admin-button "
+                      style={{ marginTop: "2vh" }}
                     >
                       <Link to="/admin/sign-in" className="reg-link">
                         Admin

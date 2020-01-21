@@ -8,14 +8,14 @@ import { NavLink, Link } from "react-router-dom";
 import FirebaseContext from "../../context/firebase/firebaseContext";
 
 import "./NavbarApp.scss";
+import history from "./../../history";
 
 const AdminNavbar = props => {
   const { user, firebase } = React.useContext(FirebaseContext);
-  console.log(props);
 
   const adminSignOut = () => {
     firebase.logout();
-    props.history.push("/");
+    history.push("/");
   };
 
   return (
@@ -27,7 +27,9 @@ const AdminNavbar = props => {
       className="nav-Container"
     >
       <Navbar.Brand>
-        <NavLink to="/">SOS DASHBOARD</NavLink>
+        <NavLink to="/">
+          <h4>SOS DASHBOARD</h4>
+        </NavLink>
       </Navbar.Brand>
       <br />
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />

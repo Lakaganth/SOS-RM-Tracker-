@@ -1,14 +1,14 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Moment from "react-moment";
-import moment from "moment";
+
 import classNames from "classnames";
 
 import "./AdminReport.scss";
 
 const AdminReportCard = ({ report }) => {
   const {
-    _id,
+    // _id,
     class_start_time,
     class_end_time,
     coach_arrival_time,
@@ -28,10 +28,10 @@ const AdminReportCard = ({ report }) => {
     "red-border": feedback_severity === "Red"
   });
 
-  const unpaidClasses = classNames({
-    "mb-2": true,
-    "highlight-text": students_unpaid > 0
-  });
+  // const unpaidClasses = classNames({
+  //   "mb-2": true,
+  //   "highlight-text": students_unpaid > 0
+  // });
 
   return (
     <Card style={{ width: "100%" }} className={reportCardClasses}>
@@ -80,6 +80,7 @@ const AdminReportCard = ({ report }) => {
             <span>Unpaid</span> {students_unpaid} / {students_enrolled}
           </Card.Subtitle>
         </div>
+        {feedback ? <p>Feedback: {feedback}</p> : null}
       </Card.Body>
     </Card>
   );

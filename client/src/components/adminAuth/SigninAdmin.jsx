@@ -3,6 +3,7 @@ import firebase from "./../../context/firebase/FirebaseState";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import history from "./../../history";
 
 const SigninAdmin = props => {
   const [user, setUser] = useState({
@@ -29,7 +30,7 @@ const SigninAdmin = props => {
     e.preventDefault();
     const { email, password } = user;
     loginuser(email, password);
-    props.history.push("/admin/page");
+    history.push("/admin/page");
     console.log("Signed in");
   };
 

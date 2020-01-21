@@ -16,8 +16,7 @@ const AdminClassCoachCard = ({ classTime }) => {
     coach_class_end,
     day_pattern,
     location,
-    sport,
-    rmanager,
+
     coach
   } = classTime;
 

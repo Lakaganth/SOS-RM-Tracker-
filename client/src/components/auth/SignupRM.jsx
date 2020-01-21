@@ -83,7 +83,6 @@ const SignupRM = props => {
                   name="rmanager_password"
                   value={rmanager_password}
                   onChange={handleChange}
-                  required
                   minLength="6"
                   required
                 />

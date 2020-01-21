@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import { Link } from "react-router-dom";
+
 import Button from "react-bootstrap/Button";
 
 import "./AdminLocation.scss";
@@ -9,7 +9,7 @@ import { DELETE_LOCATION_CARD } from "../../queries";
 import { GET_ALL_LOCATIONS } from "./../../queries/index";
 
 const AdminLocationCard = ({ allLoc }) => {
-  const { location_area, location_name, location_code, _id, rmanager } = allLoc;
+  const { location_area, location_name, location_code, _id } = allLoc;
 
   const cardDelete = (e, deleteLocation) => {
     console.log("Lets's delete");

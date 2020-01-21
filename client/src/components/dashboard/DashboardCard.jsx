@@ -6,7 +6,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 
 const DashboardCard = ({ currentRM }) => {
-  const { rmanager_email, rmanager_name } = currentRM.rmanager;
+  // const { rmanager_email, rmanager_name } = currentRM.rmanager;
   const { rmanager_location } = currentRM;
   return (
     <div>

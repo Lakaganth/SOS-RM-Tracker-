@@ -4,6 +4,7 @@ import { GET_CURRENT_COACH } from "../../../queries";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { UPDATE_COACH } from "./../../../queries/index";
+import history from "./../../../history";
 
 const AdminCoachCardEdit = ({ match }) => {
   const cID = match.params.cID;
@@ -99,17 +100,15 @@ const AdminCoachCardEdit = ({ match }) => {
     console.log(editCoach);
     updateCoach().then(({ data }) => {
       console.log(data);
-      //   props.history.push("/admin/all-coach");
+      history.push("/admin/all-coach");
     });
   };
 
   React.useEffect(() => {
     onCompletedHandler();
-    // getCurrentCoachToEdit();
-    // -disable-next-line
-  }, [getCurrentCoachToEdit]);
-
-  console.log(editCoach);
+    getCurrentCoachToEdit();
+    // disable-next-line
+  }, []);
 
   return (
     <div>
